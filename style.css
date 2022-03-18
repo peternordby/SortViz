@@ -1,0 +1,38 @@
+body {
+  text-align: center;
+  background-color: darkolivegreen;
+  color: blanchedalmond;
+  font-family: "Courier New", Courier, monospace;
+}
+
+#chart {
+  width: 80vw;
+  height: 400px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: black;
+  transition: 0.1s all ease;
+}
+
+.bar_id {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  width: inherit;
+  color: darkolivegreen;
+}
+
+button {
+  margin: 2%;
+  padding: 1%;
+  font-weight: bolder;
+  color: black;
+  background-color: darkolivegreen;
+  border-radius: 10px;
+}
