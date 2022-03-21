@@ -5,10 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>Sorting Algorithm Visualizer</title>
 </head>
 <body>
     <h1>Sorting Algorithm Visualizer</h1>
+    <select name="algos" id="algos">
+        <option value="selection">Selection Sort</option>
+        <option value="merge">Merge Sort</option>
+    </select>
+    <p>Sorting speed:</p>
+    <div>
+        <input type="range" min="0" max="100" value="50" class="slider" id="speed">
+    </div>
     <div id="chart"></div>
     <p>Number of bars:</p>
     <input id="bars" type="number" value="10">

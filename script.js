@@ -19,7 +19,7 @@ generate = (bars = numBars) => {
     }
 };
 
-sort = async (delay = 0.1) => {
+selectionSort = async (delay) => {
     document.getElementById("sort").disabled = true;
     let bars = document.querySelectorAll(".bar");
     let min_idx = 0;
@@ -48,8 +48,8 @@ sort = async (delay = 0.1) => {
             }
         }
         
-        var tempHeight = bars[min_idx].style.height;
-        var tempValue = bars[min_idx].childNodes[0].innerText;
+        let tempHeight = bars[min_idx].style.height;
+        let tempValue = bars[min_idx].childNodes[0].innerText;
         bars[min_idx].style.height = bars[i].style.height;
         bars[i].style.height = tempHeight;
         bars[min_idx].childNodes[0].innerText = bars[i].childNodes[0].innerText;
@@ -60,11 +60,22 @@ sort = async (delay = 0.1) => {
     }
 }
 
-generate();
-
-reload = () => {
-    window.location.reload();
+sort = () => {
+    let algo = document.getElementById("algos").value;
+    let speed = parseInt(document.getElementById("speed").value);
+    let delay = 400 - speed * 4;
+    switch (algo) {
+        case "selection":
+            selectionSort(delay);
+            break;
+    
+        default:
+            console.log("Not yet implemented...")
+            break;
+    }
 }
+
+generate();
 
 setNumBars = () => {
     while (document.getElementById("chart").firstChild) {
