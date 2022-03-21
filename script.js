@@ -1,3 +1,8 @@
+/**
+ * @author Peter Nordby <peter-sn@hotmail.no>
+ * Med litt inspirasjon fra https://www.geeksforgeeks.org/selection-sort-visualizer-in-javascript/
+ */
+
 const charts = document.getElementById("chart");
 let numBars = document.getElementById("bars").value
 
