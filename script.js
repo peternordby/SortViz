@@ -32,10 +32,9 @@ selectionSort = async () => {
     for (let i = 0; i < bars.length; i++) {
         
         min_idx = i;
-        bars[i].style.backgroundColor = 'grey';
         
         for (let j = i+1; j < bars.length; j++) {
-            bars[j].style.backgroundColor = 'red';
+            bars[j].style.backgroundColor = 'grey';
             
             let speed = parseInt(document.getElementById("speed").value);
             let delay = 400 - speed * 4;
@@ -45,7 +44,7 @@ selectionSort = async () => {
             let val2 = parseInt(bars[min_idx].childNodes[0].innerHTML);
             
             if (val1 < val2) {
-                bars[j].style.backgroundColor = 'skyblue';
+                bars[j].style.backgroundColor = 'white';
                 if (min_idx !== i) {
                     bars[min_idx].style.backgroundColor = 'black';
                 }
