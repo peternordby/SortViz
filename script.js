@@ -109,6 +109,42 @@ bubbleSort = async () => {
 
 }
 
+insertionSort = async () => {
+    document.getElementById("sort").disabled = true;
+    let bars = document.querySelectorAll(".bar");
+    
+    for (let i = 1; i < bars.length; i++) {
+
+        key = bars[i];
+        j = i - 1;
+        
+        keyVal = parseInt(key.childNodes[0].innerText);
+        while (j >= 0 && keyVal < parseInt(bars[j].childNodes[0].innerText)) {
+            bars[j].style.backgroundColor = 'grey';
+            let tempHeight = bars[j].style.height;
+            let tempValue = bars[j].childNodes[0].innerText;
+            bars[j].style.height = bars[j + 1].style.height;
+            bars[j].childNodes[0].innerText = bars[j + 1].childNodes[0].innerText;
+            bars[j + 1].style.height = tempHeight;
+            bars[j + 1].childNodes[0].innerText = tempValue;
+            
+            let speed = parseInt(document.getElementById("speed").value);
+            let delay = 400 - speed * 4;
+            await new Promise(r => setTimeout(r, delay));
+            bars[j].style.backgroundColor = 'black';
+
+            j--;
+        }
+    }
+
+    for (let i = 0; i < bars.length; i++) {
+        let speed = parseInt(document.getElementById("speed").value);
+        let delay = 100 - speed;
+        await new Promise(r => setTimeout(r, delay));
+        bars[i].style.backgroundColor = 'chartreuse'
+    }
+}
+
 sort = () => {
     let algo = document.getElementById("algos").value;
     switch (algo) {
@@ -118,6 +154,10 @@ sort = () => {
         
         case "bubble":
             bubbleSort();
+            break;
+        
+        case "insertion":
+            insertionSort();
             break;
     
         default:
