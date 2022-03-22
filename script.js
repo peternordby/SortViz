@@ -24,6 +24,21 @@ generate = (bars = numBars) => {
     }
 };
 
+swap = (bars, i, j) => {
+    let tempHeight = bars[j].style.height;
+    let tempValue = bars[j].childNodes[0].innerText;
+    bars[j].style.height = bars[i].style.height;
+    bars[i].style.height = tempHeight;
+    bars[j].childNodes[0].innerText = bars[i].childNodes[0].innerText;
+    bars[i].childNodes[0].innerText = tempValue;
+}
+
+wait = async (factor) => {
+    let speed = parseInt(document.getElementById("speed").value);
+    let delay = factor * 100 - speed * factor;
+    await new Promise(r => setTimeout(r, delay));
+}
+
 selectionSort = async () => {
     document.getElementById("sort").disabled = true;
     let bars = document.querySelectorAll(".bar");
@@ -36,9 +51,7 @@ selectionSort = async () => {
         for (let j = i+1; j < bars.length; j++) {
             bars[j].style.backgroundColor = 'grey';
             
-            let speed = parseInt(document.getElementById("speed").value);
-            let delay = 400 - speed * 4;
-            await new Promise(r => setTimeout(r, delay));
+            await wait(4);
             
             let val1 = parseInt(bars[j].childNodes[0].innerHTML);
             let val2 = parseInt(bars[min_idx].childNodes[0].innerHTML);
@@ -54,12 +67,7 @@ selectionSort = async () => {
             }
         }
         
-        let tempHeight = bars[min_idx].style.height;
-        let tempValue = bars[min_idx].childNodes[0].innerText;
-        bars[min_idx].style.height = bars[i].style.height;
-        bars[i].style.height = tempHeight;
-        bars[min_idx].childNodes[0].innerText = bars[i].childNodes[0].innerText;
-        bars[i].childNodes[0].innerText = tempValue;
+        swap(bars, i, min_idx);
                 
         bars[min_idx].style.backgroundColor = 'black';
         bars[i].style.backgroundColor = 'chartreuse';
@@ -75,35 +83,25 @@ bubbleSort = async () => {
             
             bars[j].style.backgroundColor = 'grey';
             
+            await wait(4);
+
             let val1 = parseInt(bars[j].childNodes[0].innerHTML);
             let val2 = parseInt(bars[j + 1].childNodes[0].innerHTML);
             
-            let speed = parseInt(document.getElementById("speed").value);
-            let delay = 400 - speed * 4;
-            await new Promise(r => setTimeout(r, delay));
             
             if (val1 > val2) {
-                let tempHeight = bars[j + 1].style.height;
-                let tempValue = bars[j + 1].childNodes[0].innerText;
-                bars[j + 1].style.height = bars[j].style.height;
-                bars[j].style.height = tempHeight;
+                swap(bars, j, j + 1);
                 if ((j + 1) !== bars.length - i - 1) {
                     bars[j+1].style.backgroundColor = 'grey'
                 }
                 bars[j].style.backgroundColor = 'black'
-                bars[j + 1].childNodes[0].innerText = bars[j].childNodes[0].innerText;
-                bars[j].childNodes[0].innerText = tempValue;
             }
-            
-
             bars[j].style.backgroundColor = 'black';
         }
     }
 
     for (let i = 0; i < bars.length; i++) {
-        let speed = parseInt(document.getElementById("speed").value);
-        let delay = 100 - speed;
-        await new Promise(r => setTimeout(r, delay));
+        await wait(1);
         bars[i].style.backgroundColor = 'chartreuse'
     }
 
@@ -119,28 +117,18 @@ insertionSort = async () => {
         j = i - 1;
         
         keyVal = parseInt(key.childNodes[0].innerText);
+
         while (j >= 0 && keyVal < parseInt(bars[j].childNodes[0].innerText)) {
             bars[j].style.backgroundColor = 'grey';
-            let tempHeight = bars[j].style.height;
-            let tempValue = bars[j].childNodes[0].innerText;
-            bars[j].style.height = bars[j + 1].style.height;
-            bars[j].childNodes[0].innerText = bars[j + 1].childNodes[0].innerText;
-            bars[j + 1].style.height = tempHeight;
-            bars[j + 1].childNodes[0].innerText = tempValue;
-            
-            let speed = parseInt(document.getElementById("speed").value);
-            let delay = 400 - speed * 4;
-            await new Promise(r => setTimeout(r, delay));
+            swap(bars, j, j + 1);
+            await wait(4);
             bars[j].style.backgroundColor = 'black';
-
             j--;
         }
     }
 
     for (let i = 0; i < bars.length; i++) {
-        let speed = parseInt(document.getElementById("speed").value);
-        let delay = 100 - speed;
-        await new Promise(r => setTimeout(r, delay));
+        await wait(1);
         bars[i].style.backgroundColor = 'chartreuse'
     }
 }
