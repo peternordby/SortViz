@@ -11,6 +11,7 @@
 <body>
     <h1>Sorting Algorithm Visualizer</h1>
     <select name="algos" id="algos">
+        <option value="quick">Quicksort</option>
         <option value="insertion">Insertion sort</option>
         <option value="selection">Selection Sort</option>
         <option value="bubble">Bubble Sort</option>
@@ -21,7 +22,7 @@
     </div>
     <div id="chart"></div>
     <p>Number of bars:</p>
-    <input id="bars" type="number" value="10">
+    <input id="bars" type="number" value="50">
     <br>
     <button id="update" onclick="setNumBars()">Update</button>
     <button id="sort" onclick="sort()">Sort the data</button>

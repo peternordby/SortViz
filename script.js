@@ -28,8 +28,8 @@ swap = (bars, i, j) => {
     let tempHeight = bars[j].style.height;
     let tempValue = bars[j].childNodes[0].innerText;
     bars[j].style.height = bars[i].style.height;
-    bars[i].style.height = tempHeight;
     bars[j].childNodes[0].innerText = bars[i].childNodes[0].innerText;
+    bars[i].style.height = tempHeight;
     bars[i].childNodes[0].innerText = tempValue;
 }
 
@@ -37,6 +37,14 @@ wait = async (factor) => {
     let speed = parseInt(document.getElementById("speed").value);
     let delay = factor * 100 - speed * factor;
     await new Promise(r => setTimeout(r, delay));
+}
+
+finished = async () => {
+    let bars = document.querySelectorAll(".bar");
+    for (let i = 0; i < bars.length; i++) {
+        await wait(1);
+        bars[i].style.backgroundColor = 'chartreuse'
+    }
 }
 
 selectionSort = async () => {
@@ -99,12 +107,6 @@ bubbleSort = async () => {
             bars[j].style.backgroundColor = 'black';
         }
     }
-
-    for (let i = 0; i < bars.length; i++) {
-        await wait(1);
-        bars[i].style.backgroundColor = 'chartreuse'
-    }
-
 }
 
 insertionSort = async () => {
@@ -126,30 +128,70 @@ insertionSort = async () => {
             j--;
         }
     }
-
-    for (let i = 0; i < bars.length; i++) {
-        await wait(1);
-        bars[i].style.backgroundColor = 'chartreuse'
-    }
 }
 
-sort = () => {
+partition = async (start, end) => {
+    let bars = document.querySelectorAll(".bar");
+    let pivotIndex = start;
+    let pivotValue = parseInt(bars[end].childNodes[0].innerText)
+    bars[end].style.backgroundColor = 'grey'
+    
+    for (let i = start; i < end; i++) {
+        value = parseInt(bars[i].childNodes[0].innerText);
+        if (value <= pivotValue) {
+            swap(bars, i, pivotIndex);
+            await wait(4);
+            pivotIndex++;
+        }
+    }
+    bars[end].style.backgroundColor = 'black'
+    swap(bars, pivotIndex, end);
+    return pivotIndex;
+}
+
+quickSort = async (start, end) => {
+    document.getElementById("sort").disabled = true;
+
+    if (start >= end) {
+        return;
+    }
+
+    // Partition around last element
+    let pivotIndex = await partition(start, end);
+
+    // Quicksort around pivot element
+    await Promise.all([
+        quickSort(start, pivotIndex - 1),
+        quickSort(pivotIndex + 1, end)
+    ]);
+}
+
+sort = async () => {
     let algo = document.getElementById("algos").value;
+    let bars = document.querySelectorAll(".bar");
+
     switch (algo) {
         case "selection":
-            selectionSort();
+            await selectionSort();
             break;
         
         case "bubble":
-            bubbleSort();
+            await bubbleSort();
+            await finished();
+            break;
+            
+        case "insertion":
+            await insertionSort();
+            await finished();
             break;
         
-        case "insertion":
-            insertionSort();
+        case "quick":
+            await quickSort(0, bars.length - 1);
+            await finished();
             break;
-    
+            
         default:
-            console.log("Not yet implemented...")
+                console.log("Not yet implemented...")
             break;
     }
 }
