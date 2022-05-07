@@ -4,7 +4,29 @@
  */
 
 const charts = document.getElementById("chart");
-let numBars = document.getElementById("bars").value
+let barsInput = document.getElementById("bars");
+let numBars = barsInput.value
+
+computeMaxBars = () => {
+    let w = document.getElementById('chart').offsetWidth;
+    console.log(w);
+    barsInput.max = `${Math.floor(w / 2)}`;
+    console.log(barsInput.max);
+    enforceMinMax();
+    setNumBars();
+}
+
+enforceMinMax = () => {
+    val = barsInput.value;
+    if (val != "") {
+        if (parseInt(val) < parseInt(barsInput.min)) {
+            barsInput.value = barsInput.min;
+        }
+        if (parseInt(val) > parseInt(barsInput.max)) {
+            barsInput.value = barsInput.max;
+        }
+    }
+}
 
 
 generate = (bars = numBars) => {
@@ -76,7 +98,7 @@ selectionSort = async () => {
         }
         
         swap(bars, i, min_idx);
-                
+        
         bars[min_idx].style.backgroundColor = 'black';
         bars[i].style.backgroundColor = 'chartreuse';
     }
@@ -92,7 +114,7 @@ bubbleSort = async () => {
             bars[j].style.backgroundColor = 'grey';
             
             await wait(4);
-
+            
             let val1 = parseInt(bars[j].childNodes[0].innerHTML);
             let val2 = parseInt(bars[j + 1].childNodes[0].innerHTML);
             
@@ -114,12 +136,12 @@ insertionSort = async () => {
     let bars = document.querySelectorAll(".bar");
     
     for (let i = 1; i < bars.length; i++) {
-
+        
         key = bars[i];
         j = i - 1;
         
         keyVal = parseInt(key.childNodes[0].innerText);
-
+        
         while (j >= 0 && keyVal < parseInt(bars[j].childNodes[0].innerText)) {
             bars[j].style.backgroundColor = 'grey';
             swap(bars, j, j + 1);
@@ -151,14 +173,14 @@ partition = async (start, end) => {
 
 quickSort = async (start, end) => {
     document.getElementById("sort").disabled = true;
-
+    
     if (start >= end) {
         return;
     }
-
+    
     // Partition around last element
     let pivotIndex = await partition(start, end);
-
+    
     // Quicksort around pivot element
     await Promise.all([
         quickSort(start, pivotIndex - 1),
@@ -206,3 +228,7 @@ setNumBars = () => {
     generate(numBars);
     document.getElementById("sort").disabled = false;
 }
+
+computeMaxBars();
+window.onresize = computeMaxBars;
+barsInput.onkeyup = enforceMinMax;
